@@ -1,0 +1,82 @@
+package com.bchong.sutdeets;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+public class EventConfirmation extends AppCompatActivity {
+    TextView mNewEventTitle, mNewEventLocation, mNewEventTimeStart, mNewEventTimeEnd,getmNewEventTag;
+    TextView mConfirmEventTitle, mConfirmEventLocation, mConfirmEventDate, mConfirmEventTime, mConfirmEventDescription,mConfimEventTag;
+    CalendarView mNewEventDate;
+    Button mCancelButton, mConfirmButton;
+
+    DatabaseReference mDatabase;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event_confirmation);
+        mNewEventTitle = findViewById(R.id.newEventTitle);
+    //    getmNewEventTag = findViewById(R.id.confirmevent_Tag);
+        mNewEventLocation = findViewById(R.id.newEventLocation);
+        mNewEventDate = findViewById(R.id.newEventDate);
+        mNewEventTimeStart = findViewById(R.id.newEventTimeStart);
+        mNewEventTimeEnd = findViewById(R.id.newEventTimeEnd);
+        mCancelButton = findViewById(R.id.cancelButton);
+        mConfirmButton = findViewById(R.id.confirmButton);
+
+        mConfirmEventTitle = findViewById(R.id.confirmEventTitle);
+        mConfirmEventLocation = findViewById(R.id.confirmEventLocation);
+        mConfirmEventDate = findViewById(R.id.confirmEventDate);
+        mConfirmEventTime = findViewById(R.id.confirmEventTime);
+        mConfirmEventDescription = findViewById(R.id.confirmEventDescription);
+        mConfimEventTag=findViewById(R.id.confirmevent_Tag);
+
+        final Bundle eventDetails = getIntent().getExtras();
+        mConfirmEventTitle.setText("Title: " + eventDetails.getString("eventTitle"));
+        mConfirmEventLocation.setText("Location: " + eventDetails.getString("eventLocation"));
+        mConfirmEventDate.setText("Date: " + eventDetails.getString("eventDate"));
+        mConfirmEventTime.setText("Time: " + eventDetails.getString("eventTimeStart") + " to " + eventDetails.getString("eventTimeEnd"));
+        mConfirmEventDescription.setText("Description: " + eventDetails.getString("eventDescription"));
+        mConfimEventTag.setText("Tag: " + eventDetails.getString("eventTAG"));
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); //return to previous activity while saving state
+            }
+        });
+
+        mConfirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Events testPush = new Events(
+                        eventDetails.getString("eventDate"),
+                        eventDetails.getString("eventLocation"),
+                        eventDetails.getString("eventTitle"),
+                        eventDetails.getString("eventTimeStart"),
+                        eventDetails.getString("eventTimeEnd"),
+                        eventDetails.getString("eventDescription"),
+                        eventDetails.getString("eventTAG")
+                        );
+                String key =mDatabase.push().getKey();
+                mDatabase.child("Events").child(key).setValue(testPush);
+                Intent mainactivity = new Intent(EventConfirmation.this, MainActivity.class);
+                startActivity(mainactivity);
+            }
+        });
+
+
+    }
+}

@@ -1,0 +1,98 @@
+package com.bchong.sutdeets;
+
+public class Events {
+    private String Date;
+    private String Location;
+    private String Title;
+    private String timeStart;
+    private String TimeEnd;
+    private String purl;
+
+    public String getTAG() {
+        return TAG;
+    }
+
+    public void setTAG(String TAG) {
+        this.TAG = TAG;
+    }
+
+    private String TAG;
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    private String Description;
+    public String getPurl() {
+        return purl;
+    }
+
+    public void setPurl(String purl) {
+        this.purl = purl;
+    }
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
+    public String getLocation() {
+        return Location;
+    }
+
+    public void setLocation(String location) {
+        Location = location;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public String getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(String timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public String getTimeEnd() {
+        return TimeEnd;
+    }
+
+    public void setTimeEnd(String timeEnd) {
+        TimeEnd = timeEnd;
+    }
+
+    public Events() {
+    }
+
+    public Events(String date, String location, String title, String timeStart, String timeEnd,String Description) {
+        Date = date;
+        Location = location;
+        Title = title;
+        this.timeStart = timeStart;
+        TimeEnd = timeEnd;
+
+        this.Description=Description;
+    }
+    public Events(String date, String location, String title, String timeStart, String timeEnd,String Description,String TAG) {
+        Date = date;
+        Location = location;
+        Title = title;
+        this.timeStart = timeStart;
+        TimeEnd = timeEnd;
+        this.TAG=TAG;
+        this.Description=Description;
+    }
+}
